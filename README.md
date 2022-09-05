@@ -1,4 +1,4 @@
-# Note Taker
+# Han ZHai Module 11 Note Taker
 
 ## Acceptance Criteria
 WHEN I open the Note Taker
