@@ -1,5 +1,11 @@
 # Han ZHai Module 11 Note Taker
 
+## Deployed live URL
+
+## Screenshot of the applciation
+
+![image](https://user-images.githubusercontent.com/106831265/188514398-48e0f599-922a-4351-a047-0f34a6d4cd64.png)
+
 ## Acceptance Criteria
 WHEN I open the Note Taker
 THEN I am presented with a landing page with a link to a notes page
