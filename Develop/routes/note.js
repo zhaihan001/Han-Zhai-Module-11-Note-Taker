@@ -1,5 +1,5 @@
 const note = require('express').Router();
-const { writeToFile, readFromFile, readAndAppend, readAndDelete } = require('../helpers/fsUtils');
+const { writeToFile, readFromFile, readAndAppend} = require('../helpers/fsUtils');
 const uuid = require('../helpers/uuid');
 const db = require('../db/db.json');
 
@@ -31,7 +31,6 @@ note.get('/', (req, res) => {
 // POST - Save a new note
 note.post('/', (req, res) => {
   console.info(`${req.method} request received`);
-  console.log(req.body);
   const { title, text } = req.body;
   if (title && text) {
     const newNote = {
@@ -39,15 +38,11 @@ note.post('/', (req, res) => {
       text,
       id: uuid(),
     };
-
     readAndAppend(newNote, './db/db.json');
-
     const response = {
       status: 'success',
       body: newNote,
     };
-
-    console.log(response);
     res.status(201).json(response);
   } else {
     res.status(500).json('Error in adding new note');
@@ -55,19 +50,35 @@ note.post('/', (req, res) => {
 });
 
 // Delete - Delete a note
+// note.delete('/:id', (req, res) => {
+//   if (req.params.id) {
+//     const noteId = req.params.id;
+//     console.info(`${req.method} request received to delete noteID ${noteId}`);
+//     for (const noteElement of db) {
+//       if (noteElement.id === noteId) {
+//         console.log(noteElement.id);
+//         readAndDelete(noteElement.id, './db/db.json');
+//         note.get();
+//         return;
+//       }
+//     }
+//   }
+// });
+
 note.delete('/:id', (req, res) => {
-  if (req.params.id) {
-    const noteId = req.params.id;
-    console.info(`${req.method} request received to delete noteID ${noteId}`);
-    for (const noteElement of db) {
-      if (noteElement.id === noteId) {
-        console.log(noteElement.id);
-        readAndDelete(noteElement.id, './db/db.json');
-        note.get();
-        return;
+  const noteId = req.params.id;
+  readFromFile('./db/db.json').then((data) => {
+    const parsedData = JSON.parse(data);
+    console.log(parsedData);
+    const newArray = [];
+    for ( let i = 0; i < parsedData.length; i++){
+      if ( noteId != parsedData[i].id){
+        newArray.push(parsedData[i]);
       }
     }
-  }
+    writeToFile('./db/db.json', newArray);
+  });
+  note.get();
 });
 
 module.exports = note;
