@@ -9,25 +9,6 @@ note.get('/', (req, res) => {
   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
 });
 
-// Get a note by ID
-// note.get('/:id', (req, res) =>{
-//   readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)))
-//   if (req.params.id) {
-//     console.info(`${req.method} request received to get a single note by id`);
-//     const noteId = req.params.id;
-//     for ( const noteElement of db){
-//       if ( noteElement.id === noteId ){
-//         res.json(noteElement);
-//         console.log(res.body);
-//         return;
-//       }
-//     }
-//     res.status(404).send('Note not found');
-//   } else {
-//     res.status(400).send('Note ID not provided');
-//   }
-// });
-
 // POST - Save a new note
 note.post('/', (req, res) => {
   console.info(`${req.method} request received`);
@@ -50,26 +31,10 @@ note.post('/', (req, res) => {
 });
 
 // Delete - Delete a note
-// note.delete('/:id', (req, res) => {
-//   if (req.params.id) {
-//     const noteId = req.params.id;
-//     console.info(`${req.method} request received to delete noteID ${noteId}`);
-//     for (const noteElement of db) {
-//       if (noteElement.id === noteId) {
-//         console.log(noteElement.id);
-//         readAndDelete(noteElement.id, './db/db.json');
-//         note.get();
-//         return;
-//       }
-//     }
-//   }
-// });
-
 note.delete('/:id', (req, res) => {
   const noteId = req.params.id;
   readFromFile('./db/db.json').then((data) => {
     const parsedData = JSON.parse(data);
-    console.log(parsedData);
     const newArray = [];
     for ( let i = 0; i < parsedData.length; i++){
       if ( noteId != parsedData[i].id){
@@ -77,8 +42,8 @@ note.delete('/:id', (req, res) => {
       }
     }
     writeToFile('./db/db.json', newArray);
+    res.json(newArray);
   });
-  note.get();
 });
 
 module.exports = note;
