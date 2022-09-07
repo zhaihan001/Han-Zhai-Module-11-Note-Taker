@@ -1,7 +1,7 @@
 # Han ZHai Module 11 Note Taker
 
 ## Deployed live URL
-https://dashboard.heroku.com/apps/fathomless-reaches-71791
+https://fathomless-reaches-71791.herokuapp.com/
 
 ## Screenshot of the applciation
 
